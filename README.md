@@ -154,12 +154,12 @@ Ela é acessada por todos os processos do Oracle, e guarda informações essenci
     </tr>
     <tr>
         <td>Compartilhada?</td>
-        <td>Sim	</td>
+        <td>Sim</td>
         <td>Não</td>
     </tr>
     <tr>
         <td>Usada por</td>
-        <td>Todos os processos	</td>
+        <td>Todos os processos</td>
         <td>Cada processo individual</td>
     </tr>
     <tr>
@@ -171,5 +171,116 @@ Ela é acessada por todos os processos do Oracle, e guarda informações essenci
         <td>Alocada quando</td>
         <td>A instância é iniciada</td>
         <td>O processo é iniciado</td>
+    </tr>
+</table>
+
+<h1>SYS – Usuário raiz do banco</h1>
+
+<ul>
+
+  <li style="text-align: justify;">É o usuário mais poderoso do Oracle.</li>
+
+  <li style="text-align: justify;">Ele possui todos os privilégios possíveis e é o dono das tabelas internas do dicionário de dados (ex: USER$, OBJ$, etc).</li>
+
+  <li style="text-align: justify;">É usado principalmente para tarefas críticas de administração (startup, shutdown, recovery, etc).</li>
+
+</ul>
+
+<p style="text-align: justify;">Observações:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Não é recomendado usar o SYS no dia a dia, a menos que você esteja fazendo algo realmente essencial.</li>
+
+  <li style="text-align: justify;">Quando se conecta com SYS, você normalmente faz isso com a cláusula AS SYSDBA.</li>
+
+</ul>
+
+<p style="text-align: justify;">Exemplo de conexão:</p>
+
+```bash
+sqlplus sys/sua_senha@SEUBANCO as sysdba
+```
+
+<h1>SYSTEM – Administrador padrão</h1>
+
+<ul>
+
+  <li style="text-align: justify;">Também é um usuário com altos privilégios, mas não tão poderoso quanto o SYS.</li>
+
+  <li style="text-align: justify;">Usado para tarefas administrativas gerais, como:</li>
+
+  <ul>
+
+  <li style="text-align: justify;">Criar outros usuários</li>
+
+  <li style="text-align: justify;">Conceder privilégios</li>
+
+  <li style="text-align: justify;">Gerenciar tablespaces, etc.</li>
+  
+  </ul>
+
+  <li style="text-align: justify;">Ele não possui as tabelas internas do Oracle, como o SYS.</li>
+
+</ul>
+
+<p style="text-align: justify;">Ideal para:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Gerenciar o banco sem mexer em estruturas internas do Oracle.</li>
+
+  <li style="text-align: justify;">Criar usuários, roles, alterar senhas.</li>
+
+</ul>
+
+<h1>PDBADMIN – Administrador do Pluggable Database (PDB)</h1>
+
+<ul>
+
+  <li style="text-align: justify;">Esse usuário existe dentro de cada PDB.</li>
+
+  <li style="text-align: justify;">Tem privilégios administrativos somente dentro daquele PDB específico.</li>
+
+  <li style="text-align: justify;">Serve para administrar a parte "isolada" do banco, dentro da arquitetura multitenant (CDB/PDB).</li>
+
+</ul>
+
+<p style="text-align: justify;">Exemplo de uso:</p>
+
+<p style="text-align: justify;">Imagine que você tem o CDB CDB1 e um PDB chamado PDB_FINANCEIRO:</p>
+
+<ul>
+
+  <li style="text-align: justify;">O usuário PDBADMIN pode criar tabelas, usuários e fazer tudo dentro do PDB_FINANCEIRO, mas não tem acesso ao CDB.</li>
+
+</ul>
+
+<p style="text-align: justify;">Resumo</p>
+
+<table border="1">
+    <tr>
+        <th>Usuário</th>
+        <th>Papel</th>
+        <th>Escopo</th>
+        <th>Pode fazer o quê?</th>
+    </tr>
+    <tr>
+        <td>SYS</td>
+        <td>Superadministrador, dono do dicionário</td>
+        <td>CDB (e PDB se acessar)</td>
+        <td>Tudo, inclusive estrutura interna</td>
+    </tr>
+    <tr>
+        <td>SYSTEM</td>
+        <td>Administrador geral</td>
+        <td>CDB e PDB</td>
+        <td>Tarefas administrativas normais</td>
+    </tr>
+    <tr>
+        <td>PDBADMIN</td>
+        <td>Admin local do PDB</td>
+        <td>Apenas no PDB</td>
+        <td>Gerencia o PDB isoladamente</td>
     </tr>
 </table>
