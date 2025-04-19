@@ -284,3 +284,213 @@ sqlplus sys/sua_senha@SEUBANCO as sysdba
         <td>Gerencia o PDB isoladamente</td>
     </tr>
 </table>
+
+<h1>Oracle Listener</h1>
+
+<p style="text-align: justify;">O comando lsnrctl é fundamental na administração de rede do Oracle Database. Ele é usado para gerenciar o Oracle Listener, que é o processo responsável por aceitar conexões remotas ao banco de dados.</p>
+
+<p style="text-align: justify;">O que é o Oracle Listener?</p>
+
+<p style="text-align: justify;">O listener (gerenciado pelo utilitário lsnrctl) é como um "porteiro" do Oracle:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Ele escuta requisições de conexão (normalmente na porta 1521).</li>
+
+  <li style="text-align: justify;">Quando alguém (como o SQL Developer ou outro cliente) tenta se conectar ao banco, o listener encaminha essa solicitação para a instância Oracle apropriada.</li>
+
+</ul>
+
+<p style="text-align: justify;">Sem o listener rodando, nenhuma conexão externa ao banco pode ser feita (só conexões locais).</p>
+
+<p style="text-align: justify;">O que é o comando lsnrctl?</p>
+
+<p style="text-align: justify;">É o utilitário de linha de comando para controlar e monitorar o Listener.</p>
+
+```bash
+lsnrctl start     -- Inicia o listener
+lsnrctl stop      -- Para o listener
+lsnrctl status    -- Mostra o status atual
+lsnrctl reload    -- Recarrega as configurações sem reiniciar
+lsnrctl services  -- Mostra os serviços registrados
+```
+
+<p style="text-align: justify;">Exemplo real:</p>
+
+```bash
+$ lsnrctl status
+
+LSNRCTL for Linux: Version 19.0.0.0.0 - Production on 18-APR-2025
+
+Connecting to (DESCRIPTION=(ADDRESS=(PROTOCOL=TCP)(HOST=localhost)(PORT=1521)))
+STATUS of the LISTENER
+------------------------
+Alias                      LISTENER
+Version                    TNSLSNR for Linux: Version 19.0.0.0.0
+Start Date                18-APR-2025 08:10:00
+Uptime                    0 days 0 hr. 25 min. 13 sec
+Services Summary...
+  Service "pdb1" has 1 instance(s).
+    Instance "pdb1", status READY, has 1 handler(s) for this service...
+```
+
+<p style="text-align: justify;">Onde ficam as configurações do Listener?</p>
+
+```bash
+$ORACLE_HOME/network/admin/listener.ora
+```
+
+<p style="text-align: justify;">É ali que ficam informações como:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Porta usada</li>
+
+  <li style="text-align: justify;">Nome do listener</li>
+
+  <li style="text-align: justify;">Protocolos</li>
+
+  <li style="text-align: justify;">Endereços IP que ele escuta</li>
+
+</ul>
+
+<p style="text-align: justify;">Resumo</p>
+
+<table border="1">
+    <tr>
+        <th>Comando</th>
+        <th>Função</th>
+    </tr>
+    <tr>
+        <td>lsnrctl start</td>
+        <td>Inicia o listener</td>
+    </tr>
+    <tr>
+        <td>lsnrctl stop</td>
+        <td>Para o listener</td>
+    </tr>
+    <tr>
+        <td>lsnrctl status</td>
+        <td>Mostra status e serviços ativos</td>
+    </tr>
+    <tr>
+        <td>lsnrctl reload</td>
+        <td>Recarrega a configuração</td>
+    </tr>
+    <tr>
+        <td>lsnrctl services</td>
+        <td>Mostra os serviços registrados</td>
+    </tr>
+</table>
+
+<h1>SQLPLUS</h1>
+
+<p style="text-align: justify;">O sqlplus é um dos principais utilitários de linha de comando do Oracle Database — essencial para administradores e desenvolvedores Oracle.</p>
+
+<p style="text-align: justify;">O que é o sqlplus?</p>
+
+<p style="text-align: justify;">É uma interface de linha de comando usada para:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Executar comandos SQL e PL/SQL</li>
+
+  <li style="text-align: justify;">Executar scripts</li>
+
+  <li style="text-align: justify;">Administrar a instância Oracle (iniciar, parar, criar usuários, etc.)</li>
+
+  <li style="text-align: justify;">Consultar dados e objetos do banco</li>
+
+  <li style="text-align: justify;">Realizar tarefas de backup, recovery, monitoramento, etc.</li>
+
+</ul>
+
+<p style="text-align: justify;">Como se conecta?</p>
+
+<p style="text-align: justify;">Você pode usar sqlplus de duas formas principais:</p>
+
+<p style="text-align: justify;">Conexão com usuário/senha:</p>
+
+```bash
+sqlplus usuario/senha@nome_da_conexao
+```
+
+<p style="text-align: justify;">Conexão como SYSDBA:</p>
+
+```bash
+sqlplus / as sysdba
+```
+
+<p style="text-align: justify;">Ou:</p>
+
+```bash
+sqlplus sys/senha@nomedb as sysdba
+```
+
+<p style="text-align: justify;">Exemplos de uso dentro do sqlplus:</p>
+
+```bash
+-- Ver tabelas do usuário
+SELECT table_name FROM user_tables;
+
+-- Criar usuário
+CREATE USER teste IDENTIFIED BY senha;
+
+-- Conceder permissão
+GRANT CONNECT, RESOURCE TO teste;
+
+-- Sair
+EXIT;
+```
+
+<p style="text-align: justify;">Exemplo completo:</p>
+
+```bash
+$ sqlplus system@orcl
+
+Enter password: *****
+
+SQL*Plus: Release 19.0.0.0.0 - Production
+
+Connected to:
+Oracle Database 19c Enterprise Edition Release 19.0.0.0.0 - Production
+
+SQL> SELECT name FROM v$database;
+
+NAME
+---------
+ORCL
+```
+
+<p style="text-align: justify;">Também é usado para rodar scripts .sql:</p>
+
+<p style="text-align: justify;">Você pode criar um script chamado script.sql com vários comandos SQL e executá-lo assim:</p>
+
+```bash
+sqlplus usuario/senha@banco @script.sql
+```
+
+<p style="text-align: justify;">Resumo</p>
+
+<table border="1">
+    <tr>
+        <th>Item</th>
+        <th>Detalhe</th>
+    </tr>
+    <tr>
+        <td>O que é?</td>
+        <td>Cliente de linha de comando do Oracle</td>
+    </tr>
+    <tr>
+        <td>Para que serve?</td>
+        <td>Executar SQL/PLSQL, scripts, comandos administrativos</td>
+    </tr>
+    <tr>
+        <td>Interface</td>
+        <td>Linha de comando (CLI)</td>
+    </tr>
+    <tr>
+        <td>Conexão</td>
+        <td>Direta com usuário/senha ou via as sysdba</td>
+    </tr>
+</table>
