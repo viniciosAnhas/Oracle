@@ -78,3 +78,98 @@ MEUBANCO
         <td>PDB1</td>
     </tr>
 </table>
+
+<h1>SGA – System Global Area</h1>
+
+<p style="text-align: justify;">A SGA é uma área de memória compartilhada, alocada quando a instância do Oracle é iniciada.
+Ela é acessada por todos os processos do Oracle, e guarda informações essenciais para o funcionamento do banco.</p>
+
+<p style="text-align: justify;">O que é armazenado na SGA?</p>
+
+<p style="text-align: justify;">Alguns dos principais componentes:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Database Buffer Cache: guarda blocos de dados lidos do disco (evita ir ao disco toda hora).</li>
+
+  <li style="text-align: justify;">Shared Pool: armazena SQLs já analisados e objetos de dicionário de dados.></li>
+
+  <li style="text-align: justify;">Redo Log Buffer: guarda informações de transações ainda não gravadas nos redo logs.></li>
+
+  <li style="text-align: justify;">Large Pool, Java Pool, Streams Pool (usados em situações específicas).></li>
+
+</ul>
+
+<p style="text-align: justify;">Resumo:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Memória compartilhada</li>
+
+  <li style="text-align: justify;">Usada por todos os processos</li>
+
+  <li style="text-align: justify;">Guarda dados em cache, instruções SQL, metadados e informações de transação</li>
+
+</ul>
+
+<h1>PGA – Program Global Area</h1>
+
+<p style="text-align: justify;">A PGA é uma área de memória privada, alocada individualmente para cada processo servidor ou background.</p>
+
+<p style="text-align: justify;">Ela não é compartilhada entre processos.</p>
+
+<p style="text-align: justify;">O que é armazenado na PGA?</p>
+
+<ul>
+
+  <li style="text-align: justify;">Dados temporários de sessões específicas (como ordenações, joins, cursores).</li>
+
+  <li style="text-align: justify;">Informações sobre variáveis bind e contexto de execução.</li>
+
+  <li style="text-align: justify;">Guarda dados em cache, instruções SQL, metadados e informações de transação</li>
+
+  <li style="text-align: justify;">Área de trabalho para operações como sorts, hash joins, etc.</li>
+
+</ul>
+
+<p style="text-align: justify;">Resumo:</p>
+
+<ul>
+
+  <li style="text-align: justify;">Memória privada</li>
+
+  <li style="text-align: justify;">Usada por cada processo separadamente</li>
+
+  <li style="text-align: justify;">Crucial para performance de operações de SQL</li>
+
+</ul>
+
+<p style="text-align: justify;">Comparação Rápida</p>
+
+<table border="1">
+    <tr>
+        <th>Característica</th>
+        <th>SGA</th>
+        <th>PGA</th>
+    </tr>
+    <tr>
+        <td>Compartilhada?</td>
+        <td>Sim	</td>
+        <td>Não</td>
+    </tr>
+    <tr>
+        <td>Usada por</td>
+        <td>Todos os processos	</td>
+        <td>Cada processo individual</td>
+    </tr>
+    <tr>
+        <td>Armazena</td>
+        <td>Cache de dados, SQL, metadados, redo log</td>
+        <td>Dados temporários de uma sessão</td>
+    </tr>
+    <tr>
+        <td>Alocada quando</td>
+        <td>A instância é iniciada</td>
+        <td>O processo é iniciado</td>
+    </tr>
+</table>
